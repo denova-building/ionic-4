@@ -1,0 +1,148 @@
+<ion-header no-border>
+  <ion-toolbar color="warning">
+    <ion-buttons slot="start">
+		<ion-back-button defaultHref="/"></ion-back-button>
+	</ion-buttons>
+    <ion-title>Traités</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+	<div class="ion-padding">
+		<label>Nom du traité</label>
+		<ion-item color="medium" lines="none">
+			<ion-label position="floating"></ion-label>
+			<ionic-selectable
+				item-content
+				placeholder="Ex: XS " 
+				[(ngModel)]="traite"
+				name="traite"
+				[items]="traites"
+				itemValueField="capacite_id"
+				itemTextField="capacite_libelle"
+				closeButtonText="Fermer"
+				searchFailText="Aucune donnée trouvée."
+				[canSearch]="true"
+				(onChange)="capaciteChange($event)">
+			</ionic-selectable>
+		</ion-item>
+		
+		<label>Zone</label>
+		<ion-item color="medium" lines="none">
+			<ion-label position="floating"></ion-label>
+			<ionic-selectable
+				item-content
+				placeholder="Sélectionnez une zone" 
+				[(ngModel)]="zone"
+				name="zone"
+				[items]="zones"
+				itemValueField="zonerisque_id"
+				itemTextField="zonerisque_libelle"
+				closeButtonText="Fermer"
+				searchFailText="Aucune donnée trouvée."
+				[canSearch]="true"
+				(onChange)="zoneChange($event)">
+			</ionic-selectable>
+		</ion-item>
+		
+		<ion-grid (click)="displayType()">
+			<ion-row class="autreP">
+				<ion-col size="6" size-md>
+					<div align="left" >
+						<span class="titleRetro">Type de </span><br>
+						<span class="titleRetro">traité </span>
+					</div>           
+			</ion-col>
+			<ion-col size="6" size-md>
+					<div align="left" >
+						<span class="valueRetro">{{data.typeTraite}} </span>
+					</div>           
+			</ion-col>
+			</ion-row>
+		</ion-grid>
+		<ion-grid (click)="displayGroupe($event)">
+			<ion-row class="autreP">
+				<ion-col size="6" size-md>
+					<div align="left" >
+						<span class="titleRetro">Groupe branche </span><br>
+						<span class="titleRetro">de risque </span>
+					</div>           
+			</ion-col>
+			<ion-col size="6" size-md>
+					<div align="left" >
+						<span class="valueRetro">{{data.groupeBranche}} </span>
+					</div>           
+			</ion-col>
+			</ion-row>
+		</ion-grid>
+		<label>Branche de risque</label>
+		<ion-item color="medium" lines="none">
+			<ion-label position="floating"></ion-label>
+			<ionic-selectable
+				item-content
+				placeholder="Ex: Incendie" 
+				[(ngModel)]="branche"
+				name="branche"
+				[items]="branches"
+				itemValueField="branche_id"
+				itemTextField="branche_libelle"
+				closeButtonText="Fermer"
+				searchFailText="Aucune donnée trouvée."
+				[canSearch]="true"
+				(onChange)="brancheChange($event)">
+			</ionic-selectable>
+		</ion-item>
+		
+		<div align="center">
+		<h6 class="titleH6">Capacité du traité</h6>
+		</div>
+		<label class="myLabel" floating="">Limite</label>
+		<input type='text' class="myInput" suffix=" XAF" mask="dot_separator.0" [(ngModel)]="data.limite"  name="limite" (change)="addTraite($event)" required="">
+		<label class="myLabel" floating="">Priorité</label>
+		<input type='text' class="myInput" suffix=" XAF" mask="dot_separator.0" [(ngModel)]="data.priorite"  name="priorite" (change)="addTraite1($event)" required="">
+		<label class="myLabel" floating="">Capacité total</label>
+		<input type='text' class="myInput" suffix=" XAF" mask="dot_separator.0" [(ngModel)]="data.total"  name="total" required="" disabled="">
+		<label class="myLabel" floating="">Assiette de prime</label>
+		<input type='text' class="myInput" suffix=" XAF" mask="dot_separator.0" [(ngModel)]="data.assiette"  name="assiette" required="" >
+		<div align="center">
+		<h6 class="titleH6">Réassureurs du traité</h6>
+		</div>
+
+		<ion-button (click)="Add()">
+			<ion-icon slot="icon-only" name="add-circle"></ion-icon>
+		</ion-button>
+		<ion-button (click)="deleted()">
+			<ion-icon slot="icon-only" name="trash"></ion-icon>
+		</ion-button>
+		<ion-grid >
+			<ion-row *ngFor="let att of anArray; let idx = index">
+				<ion-col size="9" size-md>
+					<ion-item color="medium" lines="none">
+						<ion-label position="floating"></ion-label>
+						<ionic-selectable
+							item-content
+							placeholder="Sélectionnez une société" 
+							[(ngModel)]="anArray[idx].compagnie"
+							name="compagnie"
+							[items]="societes"
+							itemValueField="societe_id"
+							itemTextField="societe_libelle"
+							closeButtonText="Fermer"
+							searchFailText="Aucune donnée trouvée."
+							[canSearch]="true"
+							(onChange)="societeChange($event)">
+						</ionic-selectable>
+					</ion-item>
+				</ion-col>
+				<ion-col size="3" size-md>
+					<input class="myInput" type="number" step="0.01" [(ngModel)]="anArray[idx].taux" name="taux" (change)="controlTaux($event)" ><span class="percent1">%</span>
+				</ion-col>
+			</ion-row>			
+		</ion-grid>
+	</div>
+	
+</ion-content>
+<ion-footer>
+	<div class="divFooter" (click)="createTraites()"><img width="" height="" src="./../../../assets/icon/create_compte.svg"></div>	
+</ion-footer>
